@@ -1,0 +1,3 @@
+include README.* VERSION
+recursive-include docs *
+recursive-include examples *
