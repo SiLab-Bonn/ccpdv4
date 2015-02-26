@@ -1,10 +1,10 @@
 import logging
 
-from ccpdv4.ccpdv4_run_base import CCPDv4RunBase
+from ccpdv4.ccpdv4_run_base import Ccpdv4RunBase
 from pybar.run_manager import RunManager
 
 
-class Init(CCPDv4RunBase):
+class Init(Ccpdv4RunBase):
     '''Init scan
     '''
     _default_run_conf = {}
