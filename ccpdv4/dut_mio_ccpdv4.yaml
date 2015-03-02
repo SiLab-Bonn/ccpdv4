@@ -183,7 +183,7 @@ registers:
           size     : 6
           offset   : 119
           bit_order: [2,0,1,3,4,5]
-        - name     : VNBuffer
+        - name     : VNBuff
           size     : 6
           offset   : 113
           bit_order: [2,0,1,3,4,5]
