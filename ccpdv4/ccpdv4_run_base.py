@@ -31,7 +31,10 @@ class Ccpdv4RunBase(Fei4RunBase):
     Base class for scan- / tune- / analyze-class.
     '''
 
-    def _init_dut(self):
+    def init_ccpdv4(self):
+        pass
+
+    def init_dut(self):
         self.dut['V_in'].set_current_limit(1000, unit='mA')  # one for all
         # enabling LVDS transceivers
         self.dut['CCPD_Vdd'].set_enable(False)
@@ -47,3 +50,8 @@ class Ccpdv4RunBase(Fei4RunBase):
         self.dut['rx']['TDC'] = 1
         self.dut['rx']['CCPD_TDC'] = 0
         self.dut['rx'].write()
+
+    def pre_run(self):
+        super(Ccpdv4RunBase, self).pre_run()
+        # CCPDv4 specific
+        self.init_ccpdv4()
