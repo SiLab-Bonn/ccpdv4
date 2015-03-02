@@ -170,87 +170,92 @@ registers:
   - name        : CCPD_GLOBAL
     type        : StdRegister
     hw_driver   : CCPD_GLOBAL_SPI
-    size        : 120
+    size        : 132
     fields:
-        - name     : EnPosFB
+        - name     : StripEn
           size     : 1
-          offset   : 119
-        - name     : EnPullUp
-          size     : 1
-          offset   : 118
+          offset   : 126
         - name     : VNBias
           size     : 6
-          offset   : 113
+          offset   : 125
           bit_order: [2,0,1,3,4,5]
         - name     : VPFoll
           size     : 6
-          offset   : 107
+          offset   : 119
           bit_order: [2,0,1,3,4,5]
         - name     : VNBuffer
           size     : 6
-          offset   : 101
+          offset   : 113
           bit_order: [2,0,1,3,4,5]
         - name     : VNCOut3
           size     : 6
-          offset   : 95
+          offset   : 107
           bit_order: [2,0,1,3,4,5]
         - name     : VNCOut2
           size     : 6
-          offset   : 89
+          offset   : 101
           bit_order: [2,0,1,3,4,5]
         - name     : VNCOut1
           size     : 6
-          offset   : 83
+          offset   : 95
           bit_order: [2,0,1,3,4,5]
         - name     : VNCompLd
           size     : 6
-          offset   : 77
+          offset   : 89
           bit_order: [2,0,1,3,4,5]
         - name     : VNComp
           size     : 6
+          offset   : 83
+          bit_order: [2,0,1,3,4,5]
+        - name     : VNCompLd2
+          size     : 6
+          offset   : 77
+          bit_order: [2,0,1,3,4,5]
+        - name     : VPComp
+          size     : 6
           offset   : 71
           bit_order: [2,0,1,3,4,5]
-        - name     : VNOut
+        - name     : VPUp
           size     : 6
           offset   : 65
           bit_order: [2,0,1,3,4,5]
-        - name     : ThP
+        - name     : VNDAC
           size     : 6
           offset   : 59
           bit_order: [2,0,1,3,4,5]
-        - name     : ThPRes
+        - name     : VNLoad
           size     : 6
           offset   : 53
           bit_order: [2,0,1,3,4,5]
-        - name     : VNDAC
+        - name     : VNFoll
           size     : 6
           offset   : 47
           bit_order: [2,0,1,3,4,5]
-        - name     : VNLoad
+        - name     : VNFB
           size     : 6
           offset   : 41
           bit_order: [2,0,1,3,4,5]
-        - name     : VNFoll
+        - name     : VN
           size     : 6
           offset   : 35
           bit_order: [2,0,1,3,4,5]
-        - name     : VNFB
+        - name     : VNClic
           size     : 6
           offset   : 29
           bit_order: [2,0,1,3,4,5]
-        - name     : VN2
+        - name     : ThRes
           size     : 6
           offset   : 23
           bit_order: [2,0,1,3,4,5]
-        - name     : VN
+        - name     : BLRes
           size     : 6
           offset   : 17
           bit_order: [2,0,1,3,4,5]
-        - name     : ThRes
+        - name     : VNNew
           size     : 6
           offset   : 11
           bit_order: [2,0,1,3,4,5]
-        - name     : BLRes
+        - name     : BLBias
           size     : 6
           offset   : 5
           bit_order: [2,0,1,3,4,5]
@@ -258,13 +263,23 @@ registers:
   - name        : CCPD_CONFIG
     type        : StdRegister
     hw_driver   : CCPD_CONFIG_SPI
-    size        : 432
+    size        : 336
     auto_start  : True
     fields:
-        - name   : COLUMN
-          offset : 431
+        - name   : CLICK
+          offset : 335
           size   : 12
-          repeat : 20
+          repeat : 2
+
+        - name   : NEW
+          offset : 311
+          size   : 12
+          repeat : 2
+
+        - name   : COLUMN
+          offset : 287
+          size   : 12
+          repeat : 16
           fields  :
             - name     : ao
               size     : 1
@@ -272,7 +287,7 @@ registers:
             - name     : dc
               size     : 1
               offset   : 10
-            - name     : Ld2
+            - name     : Ld
               size     : 1
               offset   : 9
             - name     : Ld1
@@ -281,7 +296,7 @@ registers:
             - name     : Ld0
               size     : 1
               offset   : 7
-            - name     : Str
+            - name     : OCO
               size     : 1
               offset   : 6
             - name     : R2
@@ -302,10 +317,11 @@ registers:
             - name     : L0
               size     : 1
               offset   : 0
+
         - name   : ROW
-          offset : 191
+          offset : 95
           size   : 16
-          repeat : 12
+          repeat : 6
           fields  :
             - name     : En0
               size     : 1
@@ -339,3 +355,4 @@ registers:
             - name     : EnR
               size     : 1
               offset   : 0
+
