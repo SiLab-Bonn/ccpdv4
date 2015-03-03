@@ -1,53 +1,33 @@
 import logging
-from time import time, sleep
-import re
-import os
-import sys
-import numpy as np
-from functools import wraps
-from threading import Event, Thread
-from Queue import Queue
-import tables as tb
-from collections import namedtuple, Mapping
-from contextlib import contextmanager
-import abc
-import ast
-import inspect
-from basil.dut import Dut
+from time import sleep
 
-from pybar.run_manager import RunAborted
-from pybar.fei4_run_base import Fei4RunBase, namedtuple_with_defaults
-from pybar.fei4.register import FEI4Register
-from pybar.fei4.register_utils import FEI4RegisterUtils, is_fe_ready
-from pybar.daq.fifo_readout import FifoReadout, RxSyncError, EightbTenbError, FifoError, NoDataTimeout, StopTimeout
-from pybar.daq.fei4_raw_data import open_raw_data_file
-from pybar.analysis.analysis_utils import AnalysisError
-from pybar.analysis.RawDataConverter.data_struct import NameValue
+from pybar.fei4_run_base import Fei4RunBase
 
 ccpdv4_default_config = {
-   'BLBias': 1,
-   'VNNew': 0,
-   'BLRes': 1,
-   'ThRes': 0,
-   'VNClic': 0,
-   'VN': 60,
-   'VNFB': 1,
-   'VNFoll': 5,
-   'VNLoad': 5,
-   'VNDAC': 10,
-   'VPUp': 8,
-   'VPComp': 10,
-   'VNCompLd2': 0,
-   'VNComp': 10,
-   'VNCompLd': 1,
-   'VNCOut1': 1,
-   'VNCOut2': 1,
-   'VNCOut3': 1,
-   'VNBuff': 30,
-   'VPFoll': 30,
-   'VNBias': 0,
-   'StripEn': 0 
+    'BLBias': 1,
+    'VNNew': 0,
+    'BLRes': 1,
+    'ThRes': 0,
+    'VNClic': 0,
+    'VN': 60,
+    'VNFB': 1,
+    'VNFoll': 5,
+    'VNLoad': 5,
+    'VNDAC': 10,
+    'VPUp': 8,
+    'VPComp': 10,
+    'VNCompLd2': 0,
+    'VNComp': 10,
+    'VNCompLd': 1,
+    'VNCOut1': 1,
+    'VNCOut2': 1,
+    'VNCOut3': 1,
+    'VNBuff': 30,
+    'VPFoll': 30,
+    'VNBias': 0,
+    'StripEn': 0
 }
+
 
 class Ccpdv4RunBase(Fei4RunBase):
     '''Basic CCPDv4 run class.
@@ -96,10 +76,6 @@ class Ccpdv4RunBase(Fei4RunBase):
             raise Exception('VGate overcurrent detected')
         # Vcasc
         self.dut['CCPD_Vcasc'].set_voltage(1.1, unit='V')
-        self.dut['CCPD_Vcasc'].set_enable(True)
-        if self.dut["CCPD_Vcasc"].get_over_current():
-            self.power_off()
-            raise Exception('Vcasc overcurrent detected')
         # enabling V_in
         self.dut['V_in'].set_voltage(2.1, unit='V')
         self.dut['V_in'].set_enable(True)
@@ -108,7 +84,6 @@ class Ccpdv4RunBase(Fei4RunBase):
             raise Exception('V_in overcurrent detected')
 
     def power_off(self):
-        self.dut['CCPD_Vcasc'].set_enable(False)
         self.dut['CCPD_VGate'].set_enable(False)
         self.dut['CCPD_Vssa'].set_enable(False)
         self.dut['CCPD_Vdd'].set_enable(False)
