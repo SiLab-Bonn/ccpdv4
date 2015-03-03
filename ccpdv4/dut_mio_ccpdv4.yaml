@@ -63,7 +63,7 @@ hw_drivers:
     type      : spi
     interface : USB
     base_addr : 0x18980
-    mem_bytes : 15
+    mem_bytes : 17
 
   - name      : CCPD_TDCGATE_PULSE
     type      : pulse_gen
@@ -79,7 +79,7 @@ hw_drivers:
     type      : spi
     interface : USB
     base_addr : 0x19000
-    mem_bytes : 54
+    mem_bytes : 42
 
   - name      : CCPD_TDC
     type      : tdc_s3
