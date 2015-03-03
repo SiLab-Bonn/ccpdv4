@@ -46,12 +46,6 @@ class Ccpdv4RunBase(Fei4RunBase):
             sleep(0.001)
 
     def init_ccpdv4(self):
-        self.dut['CCPD_GLOBAL'].reset()
-        self.dut['CCPD_GLOBAL'].set_size(132)
-        self.dut['CCPD_GLOBAL'].set_repeat(1)
-        self.dut['CCPD_CONFIG'].reset()
-        self.dut['CCPD_CONFIG'].set_repeat(1)
-        self.dut['CCPD_CONFIG'].set_size(336)
         self.write_global()
 
     def power_on(self):
