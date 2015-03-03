@@ -134,38 +134,38 @@ registers:
   - name        : CCPD_Vcasc
     type        : FunctionalRegister
     hw_driver   : GPAC
-    arg_names   : [ value ]
-    arg_add     : { 'channel': 'VSRC0'}
+    arg_names   : [value]
+    arg_add     : {'channel': 'VSRC0'}
 
   - name        : PCB_Th
     type        : FunctionalRegister
     hw_driver   : GPAC
-    arg_names   : [ value ]
-    arg_add     : { 'channel': 'VSRC1'}
+    arg_names   : [value]
+    arg_add     : {'channel': 'VSRC1'}
 
   - name        : CCPD_BL
     type        : FunctionalRegister
     hw_driver   : GPAC
-    arg_names   : [ value ]
-    arg_add     : { 'channel': 'VSRC2'}
+    arg_names   : [value]
+    arg_add     : {'channel': 'VSRC2'}
 
   - name        : CCPD_Th
     type        : FunctionalRegister
     hw_driver   : GPAC
-    arg_names   : [ value ]
-    arg_add     : { 'channel': 'VSRC3'}
+    arg_names   : [value]
+    arg_add     : {'channel': 'VSRC3'}
 
   - name        : CCPD_Injection_low
     type        : FunctionalRegister
     hw_driver   : GPAC
-    arg_names   : [ value ]
-    arg_add     : { 'channel': 'INJ1'}
+    arg_names   : [value]
+    arg_add     : {'channel': 'INJ1'}
 
   - name        : CCPD_Injection_high
     type        : FunctionalRegister
     hw_driver   : GPAC
-    arg_names   : [ value ]
-    arg_add     : { 'channel': 'INJ0'}
+    arg_names   : [value]
+    arg_add     : {'channel': 'INJ0'}
 
   - name        : CCPD_GLOBAL
     type        : StdRegister
