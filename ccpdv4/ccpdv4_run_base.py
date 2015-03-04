@@ -1,32 +1,7 @@
 import logging
-from time import sleep
 
 from pybar.fei4_run_base import Fei4RunBase
-
-ccpdv4_default_config = {
-    'BLBias': 1,
-    'VNNew': 0,
-    'BLRes': 1,
-    'ThRes': 0,
-    'VNClic': 0,
-    'VN': 60,
-    'VNFB': 1,
-    'VNFoll': 5,
-    'VNLoad': 5,
-    'VNDAC': 10,
-    'VPUp': 8,
-    'VPComp': 10,
-    'VNCompLd2': 0,
-    'VNComp': 10,
-    'VNCompLd': 1,
-    'VNCOut1': 1,
-    'VNCOut2': 1,
-    'VNCOut3': 1,
-    'VNBuff': 30,
-    'VPFoll': 30,
-    'VNBias': 0,
-    'StripEn': 0
-}
+from ccpdv4.ccpd.register import CcpdRegister
 
 
 class Ccpdv4RunBase(Fei4RunBase):
@@ -34,19 +9,9 @@ class Ccpdv4RunBase(Fei4RunBase):
 
     Base class for scan- / tune- / analyze-class.
     '''
-
-    def write_global(self, config=None):
-        if not config:
-            config = ccpdv4_default_config
-        for reg, value in config.iteritems():
-            self.dut['CCPD_GLOBAL'][reg] = value
-        self.dut['CCPD_GLOBAL'].write()
-        self.dut['CCPD_GLOBAL'].start()
-        while not self.dut['CCPD_GLOBAL'].is_done():
-            sleep(0.001)
-
     def init_ccpdv4(self):
-        self.write_global()
+        self.ccpd_register = CcpdRegister(self.dut, configuration_file=None)
+        self.ccpd_register.write_global()
 
     def power_on(self):
         self.dut['V_in'].set_current_limit(1000, unit='mA')  # one for all
