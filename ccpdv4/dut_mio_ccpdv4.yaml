@@ -281,10 +281,10 @@ registers:
           size   : 12
           repeat : 16
           fields  :
-            - name     : ao
+            - name     : AO
               size     : 1
               offset   : 11
-            - name     : dc
+            - name     : CompEn
               size     : 1
               offset   : 10
             - name     : Ld2
@@ -296,7 +296,7 @@ registers:
             - name     : Ld0
               size     : 1
               offset   : 7
-            - name     : OCO
+            - name     : CCO
               size     : 1
               offset   : 6
             - name     : R2
