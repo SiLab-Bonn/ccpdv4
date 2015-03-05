@@ -137,7 +137,7 @@ registers:
     arg_names   : [value]
     arg_add     : {'channel': 'VSRC0'}
 
-  - name        : PCB_Th
+  - name        : CPPD_HVPlus
     type        : FunctionalRegister
     hw_driver   : GPAC
     arg_names   : [value]
@@ -154,6 +154,12 @@ registers:
     hw_driver   : GPAC
     arg_names   : [value]
     arg_add     : {'channel': 'VSRC3'}
+
+  - name        : VN
+    type        : FunctionalRegister
+    hw_driver   : GPAC
+    arg_names   : [value]
+    arg_add     : {'channel': 'ISRC3'}
 
   - name        : CCPD_Injection_low
     type        : FunctionalRegister
