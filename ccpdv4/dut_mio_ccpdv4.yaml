@@ -155,7 +155,7 @@ registers:
     arg_names   : [value]
     arg_add     : {'channel': 'VSRC3'}
 
-  - name        : VN
+  - name        : CPPD_VN
     type        : FunctionalRegister
     hw_driver   : GPAC
     arg_names   : [value]
