@@ -27,7 +27,7 @@ class CcpdRegister(object):
         self.pixel_register = None
 
     def make_default_configuration(self):
-        self.global_register = ccpdv4.copy()
+        self.global_register = ccpdv4['CCPD_GLOBAL'].copy()
         self.pixel_register = {
             "threshold": np.full((48, 12), 7, dtype=np.uint8),  # 16 columns (triple col) x 6 rows (double row)
 #             "monitor": value = np.full((48,12), 0, dtype=np.uint8),
@@ -45,7 +45,7 @@ class CcpdRegister(object):
     def write_global(self):
         for reg in self.global_register:
             self.dut['CCPD_GLOBAL'][reg] = self.global_register[reg]
-        self.write_chip('CCPD_GLOBAL', self.global_register)
+        self.write_chip('CCPD_GLOBAL')
 
     def write_pixel(self, columns=None):
         if not columns:
@@ -64,9 +64,9 @@ class CcpdRegister(object):
             if col % 3 == 0:
                 ld = 'Ld0'
             elif col % 3 == 1:
-                ld = 'Ld0'
+                ld = 'Ld1'
             elif col % 3 == 2:
-                ld = 'Ld3'
+                ld = 'Ld2'
             # TOSO: speedup
             self.dut['CCPD_CONFIG']['COLUMN'][15 - col / 3][ld] = 1
             self.write_chip('CCPD_CONFIG')
