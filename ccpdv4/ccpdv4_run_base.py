@@ -24,9 +24,9 @@ class Ccpdv4RunBase(Fei4RunBase):
 #             self.power_off()
 #             raise Exception('V_in overcurrent detected')
         # Vdd, also enabling LVDS transceivers
-        self.dut['CCPD_Vdd'].set_voltage(1.8, unit='V')
-        self.dut['CCPD_Vdd'].set_enable(True)
-        if self.dut["CCPD_Vdd"].get_over_current():
+        self.dut['CCPD_Vdda'].set_voltage(1.8, unit='V')
+        self.dut['CCPD_Vdda'].set_enable(True)
+        if self.dut["CCPD_Vdda"].get_over_current():
             self.power_off()
             raise Exception('Vdd overcurrent detected')
         # Vssa
@@ -63,11 +63,11 @@ class Ccpdv4RunBase(Fei4RunBase):
         # PWR
         self.dut["CCPD_VGate"].set_voltage(0.0, unit="V")
         self.dut["CCPD_Vssa"].set_voltage(0.0, unit="V")
-        self.dut["CCPD_Vdd"].set_voltage(0.0, unit="V")
+        self.dut["CCPD_Vdda"].set_voltage(0.0, unit="V")
         self.dut["V_in"].set_voltage(0.0, unit="V")
         self.dut['CCPD_VGate'].set_enable(False)
         self.dut['CCPD_Vssa'].set_enable(False)
-        self.dut['CCPD_Vdd'].set_enable(False)
+        self.dut['CCPD_Vdda'].set_enable(False)
         self.dut['V_in'].set_enable(False)
         # INJ, use CCPD_INJ_PULSE
         self.dut['CCPD_Injection_high'].set_voltage(value=0.0, unit="V")

@@ -107,7 +107,7 @@ registers:
         size    : 1
         offset  : 0
 
-  - name        : CCPD_Vdd
+  - name        : CCPD_Vdda
     type        : FunctionalRegister
     hw_driver   : GPAC
     arg_names   : [value]
