@@ -42,7 +42,11 @@ class CcpdRegister(object):
         while not interface.is_done():
             sleep(0.001)
 
-    def write_global(self):
+    def write_global(self, register=None, **kwargs):
+        if register:
+            self.global_register.update(register)
+        if kwargs:
+            self.global_register.update(kwargs)
         for reg in self.global_register:
             self.dut['CCPD_GLOBAL'][reg] = self.global_register[reg]
         self.write_chip('CCPD_GLOBAL')
