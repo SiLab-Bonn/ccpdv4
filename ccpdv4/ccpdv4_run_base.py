@@ -42,12 +42,15 @@ class Ccpdv4RunBase(Fei4RunBase):
             self.power_off()
             raise Exception('VGate overcurrent detected')
         # VSRC
-        self.dut["CCPD_Vcasc"].set_voltage(0.0, unit="V")  # TODO: fix value
-        self.dut["CCPD_HVPlus"].set_voltage(0.0, unit="V")  # TODO: fix value
-        self.dut["CCPD_BL"].set_voltage(0.0, unit="V")  # TODO: fix value
-        self.dut["CCPD_Th"].set_voltage(0.0, unit="V")  # TODO: fix value
+        self.dut["CCPD_Vcasc"].set_voltage(0.0, unit="V")  # TODO: 1.1V?
+        self.dut["CPPD_HVPlus"].set_voltage(0.0, unit="V")  # TODO: fix value
+        self.dut["CCPD_BL"].set_voltage(0.8, unit="V")  # TODO: 0.8V?
+        self.dut["CCPD_Th"].set_voltage(0.95, unit="V")  # TODO: 0.85V? 100mV difference between V2 and V4
         # ISRC
         self.dut["CPPD_VN"].set_current(0.0, unit="uA")  # TODO: fix value
+        # INJ, use CCPD_INJ_PULSE
+        self.dut['CCPD_Injection_high'].set_voltage(value=0.75, unit="V")
+        self.dut['CCPD_Injection_low'].set_voltage(value=0.5, unit="V")
 
     def power_off(self):
         # VSRC
@@ -66,6 +69,9 @@ class Ccpdv4RunBase(Fei4RunBase):
         self.dut['CCPD_Vssa'].set_enable(False)
         self.dut['CCPD_Vdd'].set_enable(False)
         self.dut['V_in'].set_enable(False)
+        # INJ, use CCPD_INJ_PULSE
+        self.dut['CCPD_Injection_high'].set_voltage(value=0.0, unit="V")
+        self.dut['CCPD_Injection_low'].set_voltage(value=0.0, unit="V")
 
     def init_dut(self):
         self.power_on()
