@@ -29,41 +29,46 @@ class CcpdRegister(object):
     def make_default_configuration(self):
         self.global_register = ccpdv4.copy()
         self.pixel_register = {
-            "threshold": value = np.full((48, 12), 7, dtype=np.uint8),  # 16 columns (triple row) x 6 rows (double col)
-            #"monitor": value = np.full((48,12), 0, dtype=np.uint8),
-            "injection": value = np.full((48, 12), 0, dtype=np.uint8)
+            "threshold": np.full((48, 12), 7, dtype=np.uint8),  # 16 columns (triple col) x 6 rows (double row)
+#             "monitor": value = np.full((48,12), 0, dtype=np.uint8),
+            "injection": np.full((48, 12), 0, dtype=np.uint8)
         }
 
-    def write_chip(self, interface, config=None):
+    def write_chip(self, interface):
         if isinstance(interface, basestring):
             interface = self.dut[interface]
-        if config:
-            for reg, value in config.iteritems():
-                interface[reg] = value
         interface.write()
         interface.start()  # TODO: check autostart
         while not interface.is_done():
             sleep(0.001)
 
     def write_global(self):
+        for reg in self.global_register:
+            self.dut['CCPD_GLOBAL'][reg] = self.global_register[reg]
         self.write_chip('CCPD_GLOBAL', self.global_register)
 
-    def write_pixel(self):
-        self.pixel_register
-        for col in range(48):
+    def write_pixel(self, columns=None):
+        if not columns:
+            columns = range(48)
+        # enable comparator
+        triple_cols = np.unique(np.array(columns) / 3)
+        for triple_col in triple_cols:
+            self.dut['CCPD_CONFIG']['COLUMN'][triple_col]['CompEn']
+        for col in columns:
             for row in range(12):
                 if row % 2 == 0:
-                    in = 'InR'
+                    double_row = 'InR'
                 elif row % 2 == 1:
-                    in = 'InL'
-                self.dut['CCPD_CONFIG']['ROW'][5-row/2][in] = self.self.pixel_register['threshold'][col, row]
+                    double_row = 'InL'
+                self.dut['CCPD_CONFIG']['ROW'][5 - row / 2][double_row] = self.pixel_register['threshold'][col, row]
             if col % 3 == 0:
                 ld = 'Ld0'
             elif col % 3 == 1:
                 ld = 'Ld0'
             elif col % 3 == 2:
                 ld = 'Ld3'
-            self.dut['CCPD_CONFIG']['COLUMN'][15-col/3][ld] = 1
+            # TOSO: speedup
+            self.dut['CCPD_CONFIG']['COLUMN'][15 - col / 3][ld] = 1
             self.write_chip('CCPD_CONFIG')
-            self.dut['CCPD_CONFIG']['COLUMN'][15-col/3][ld] = 0
+            self.dut['CCPD_CONFIG']['COLUMN'][15 - col / 3][ld] = 0
             self.write_chip('CCPD_CONFIG')

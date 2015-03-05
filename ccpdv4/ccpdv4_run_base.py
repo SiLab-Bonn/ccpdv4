@@ -12,6 +12,7 @@ class Ccpdv4RunBase(Fei4RunBase):
     def init_ccpdv4(self):
         self.ccpd_register = CcpdRegister(self.dut, configuration_file=None)
         self.ccpd_register.write_global()
+        self.ccpd_register.write_pixel()
 
     def power_on(self):
         self.dut['V_in'].set_current_limit(1000, unit='mA')  # one for all
