@@ -24,9 +24,9 @@ class Ccpdv4RunBase(Fei4RunBase):
 #             self.power_off()
 #             raise Exception('V_in overcurrent detected')
         # Vdd, also enabling LVDS transceivers
-        self.dut['CCPD_Vdda'].set_voltage(1.8, unit='V')
-        self.dut['CCPD_Vdda'].set_enable(True)
-        if self.dut["CCPD_Vdda"].get_over_current():
+        self.dut['CCPD_Vdd'].set_voltage(1.8, unit='V')
+        self.dut['CCPD_Vdd'].set_enable(True)
+        if self.dut["CCPD_Vdd"].get_over_current():
             self.power_off()
             raise Exception('Vdd overcurrent detected')
         # Vssa
@@ -42,15 +42,19 @@ class Ccpdv4RunBase(Fei4RunBase):
             self.power_off()
             raise Exception('VGate overcurrent detected')
         # VSRC
-        self.dut["CCPD_Vcasc"].set_voltage(0.0, unit="V")  # TODO: 1.1V?
-        self.dut["CPPD_HVPlus"].set_voltage(0.0, unit="V")  # TODO: fix value
-        self.dut["CCPD_BL"].set_voltage(0.8, unit="V")  # TODO: 0.8V?
-        self.dut["CCPD_Th"].set_voltage(0.95, unit="V")  # TODO: 0.85V? 100mV difference between V2 and V4
-        # ISRC
-        self.dut["CPPD_VN"].set_current(0.0, unit="uA")  # TODO: fix value
+        self.dut["CCPD_Vcasc"].set_voltage(0.0, unit="V")  # default: floating, else 1.1V
+        self.dut["CPPD_HVPlus"].set_voltage(0.0, unit="V")  # default: floating, else Vdd
+        self.dut["CCPD_BL"].set_voltage(0.8, unit="V")  # default: 0.8V
+        self.dut["CCPD_Th"].set_voltage(0.95, unit="V")  # default: 0.95V, note: 100mV difference between V2 and V4
         # INJ, use CCPD_INJ_PULSE
         self.dut['CCPD_Injection_high'].set_voltage(value=0.75, unit="V")
         self.dut['CCPD_Injection_low'].set_voltage(value=0.5, unit="V")
+
+        # Power externally:
+        # VPlus: 1.3V
+        # VMi0: The amplitude for column 3i is VPlus - VMi0
+        # VMi1: The amplitude for column 3i+1 is VPlus - VMi1
+        # VMi2: The amplitude for column 3i+2 is VPlus - VMi2
 
     def power_off(self):
         # VSRC
@@ -58,16 +62,14 @@ class Ccpdv4RunBase(Fei4RunBase):
         self.dut["CCPD_HVPlus"].set_voltage(0.0, unit="V")
         self.dut["CCPD_BL"].set_voltage(0.0, unit="V")
         self.dut["CCPD_Th"].set_voltage(0.0, unit="V")
-        # ISRC
-        self.dut["CPPD_VN"].set_current(0.0, unit="uA")
         # PWR
         self.dut["CCPD_VGate"].set_voltage(0.0, unit="V")
         self.dut["CCPD_Vssa"].set_voltage(0.0, unit="V")
-        self.dut["CCPD_Vdda"].set_voltage(0.0, unit="V")
+        self.dut["CCPD_Vdd"].set_voltage(0.0, unit="V")
         self.dut["V_in"].set_voltage(0.0, unit="V")
         self.dut['CCPD_VGate'].set_enable(False)
         self.dut['CCPD_Vssa'].set_enable(False)
-        self.dut['CCPD_Vdda'].set_enable(False)
+        self.dut['CCPD_Vdd'].set_enable(False)
         self.dut['V_in'].set_enable(False)
         # INJ, use CCPD_INJ_PULSE
         self.dut['CCPD_Injection_high'].set_voltage(value=0.0, unit="V")

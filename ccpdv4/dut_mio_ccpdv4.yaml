@@ -107,7 +107,7 @@ registers:
         size    : 1
         offset  : 0
 
-  - name        : CCPD_Vdda
+  - name        : CCPD_Vdd
     type        : FunctionalRegister
     hw_driver   : GPAC
     arg_names   : [value]
@@ -154,12 +154,6 @@ registers:
     hw_driver   : GPAC
     arg_names   : [value]
     arg_add     : {'channel': 'VSRC3'}
-
-  - name        : CPPD_VN
-    type        : FunctionalRegister
-    hw_driver   : GPAC
-    arg_names   : [value]
-    arg_add     : {'channel': 'ISRC3'}
 
   - name        : CCPD_Injection_low
     type        : FunctionalRegister
