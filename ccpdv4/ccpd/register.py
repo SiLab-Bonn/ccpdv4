@@ -15,23 +15,23 @@ class CcpdRegister(object):
     def __init__(self, dut, configuration_file=None):
         self.dut = dut
 
-        self.configuration_file = None
-        if configuration_file:
-            self.open_configuration(configuration_file)
-        else:
-            self.make_default_configuration()
+        self.open_configuration(configuration_file)
 
     def open_configuration(self, configuration_file):
         self.configuration_file = configuration_file
-        self.global_register = None
-        self.pixel_register = None
+        if configuration_file:
+            # TODO:
+            self.global_register = None
+            self.pixel_register = None
+        else:
+            self.make_default_configuration()
 
     def make_default_configuration(self):
         self.global_register = ccpdv4['CCPD_GLOBAL'].copy()
         self.pixel_register = {
             "threshold": np.full((48, 12), 7, dtype=np.uint8),  # 16 columns (triple col) x 6 rows (double row)
 #             "monitor": value = np.full((48,12), 0, dtype=np.uint8),
-            "injection": np.full((48, 12), 0, dtype=np.uint8)
+            "injection": np.full((6, ), 0, dtype=np.uint8)
         }
 
     def write_chip(self, interface):
@@ -57,7 +57,11 @@ class CcpdRegister(object):
         # enable comparator
         triple_cols = np.unique(np.array(columns) / 3)
         for triple_col in triple_cols:
-            self.dut['CCPD_CONFIG']['COLUMN'][triple_col]['CompEn']
+            self.dut['CCPD_CONFIG']['COLUMN'][triple_col]['CompEn'] = 1
+        double_rows = range(6)
+        for double_row in double_rows:
+            self.dut['CCPD_CONFIG']['ROW'][double_row]['EnL'] = 1
+            self.dut['CCPD_CONFIG']['ROW'][double_row]['EnR'] = 1
         for col in columns:
             for row in range(12):
                 if row % 2 == 0:
@@ -76,3 +80,26 @@ class CcpdRegister(object):
             self.write_chip('CCPD_CONFIG')
             self.dut['CCPD_CONFIG']['COLUMN'][15 - col / 3][ld] = 0
             self.write_chip('CCPD_CONFIG')
+
+    def set_injection(self, col_mask=None, double_rows=None):
+        if not col_mask:
+            col_mask = self.pixel_register['injection']
+        elif isinstance(col_mask, (int, long)):
+            col_mask = np.full((6, ), col_mask, dtype=np.uint8)
+        col_mask = np.asarray(col_mask, dtype=np.uint8)
+        self.pixel_register['injection'] = col_mask
+        if not double_rows:
+            double_rows = range(6)
+        for double_row in double_rows:
+            # deselect
+            self.dut['CCPD_CONFIG']['ROW'][double_row]['En0'] = 0
+            self.dut['CCPD_CONFIG']['ROW'][double_row]['En1'] = 0
+            self.dut['CCPD_CONFIG']['ROW'][double_row]['En2'] = 0
+            self.dut['CCPD_CONFIG']['ROW'][double_row]['En3'] = 0
+            self.dut['CCPD_CONFIG']['ROW'][double_row]['En4'] = 0
+            self.dut['CCPD_CONFIG']['ROW'][double_row]['En5'] = 0
+            for select, bit in enumerate([1, 2, 4, 8, 16, 32]):
+                select_bit = np.bitwise_and(col_mask[double_row], [bit])
+                # select
+                if select_bit:
+                    self.dut['CCPD_CONFIG']['ROW'][double_row]['En' + str(select)] = 1
