@@ -1,9 +1,4 @@
 import logging
-from time import sleep
-
-from matplotlib.backends.backend_pdf import PdfPages
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 from ccpdv4.ccpdv4_run_base import Ccpdv4RunBase
 from pybar.run_manager import RunManager
