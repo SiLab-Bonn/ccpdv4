@@ -42,8 +42,8 @@ class Ccpdv4RunBase(Fei4RunBase):
             self.power_off()
             raise Exception('VGate overcurrent detected')
         # VSRC
-        self.dut["CCPD_Vcasc"].set_voltage(0.00, unit="V")  # default: floating, else 1.1V
-        self.dut["CPPD_HVPlus"].set_voltage(0.00, unit="V")  # default: floating, else Vdd
+#         self.dut["CCPD_Vcasc"].set_voltage(1.10, unit="V")  # default: floating, else 1.1V
+#         self.dut["CPPD_HVPlus"].set_voltage(1.80, unit="V")  # default: floating, else Vdd
         self.dut["CCPD_BL"].set_voltage(0.80, unit="V")  # default: 0.8V
         self.dut["CCPD_Th"].set_voltage(0.873, unit="V")  # default: 0.90V, note: 100mV difference between V2 and V4
         # INJ, use CCPD_INJ_PULSE
