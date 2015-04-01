@@ -68,7 +68,7 @@ class CcpdRegister(object):
                     double_row = 'InR'
                 elif row % 2 == 1:
                     double_row = 'InL'
-                self.dut['CCPD_CONFIG']['ROW'][5 - row / 2][double_row] = self.pixel_register['threshold'][col, row]
+                self.dut['CCPD_CONFIG']['ROW'][5 - row / 2][double_row] = int(self.pixel_register['threshold'][col, row])
             if col % 3 == 0:
                 ld = 'Ld0'
             elif col % 3 == 1:
