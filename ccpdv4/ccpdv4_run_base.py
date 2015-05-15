@@ -78,11 +78,11 @@ class Ccpdv4RunBase(Fei4RunBase):
     def init_dut(self):
         self.power_on()
         # enabling readout
-        self.dut['rx']['FE'] = 1
-        self.dut['rx']['TLU'] = 1
-        self.dut['rx']['TDC'] = 1
-        self.dut['rx']['CCPD_TDC'] = 1
-        self.dut['rx'].write()
+        self.dut['ENABLE_CHANNEL']['FE'] = 1
+        self.dut['ENABLE_CHANNEL']['TLU'] = 1
+        self.dut['ENABLE_CHANNEL']['TDC'] = 1
+        self.dut['ENABLE_CHANNEL']['CCPD_TDC'] = 1
+        self.dut['ENABLE_CHANNEL'].write()
 
     def pre_run(self):
         super(Ccpdv4RunBase, self).pre_run()

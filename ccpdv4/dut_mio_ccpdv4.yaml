@@ -7,38 +7,38 @@ transfer_layer:
     type     : SiUsb
 
 hw_drivers:
-  - name      : GPAC
+  - name      : ADAPTER_CARD
     type      : GPAC
     interface : USB
     base_addr : 0x0
 
-  - name      : cmd
+  - name      : CMD
     type      : cmd_seq
     interface : USB
     base_addr : 0x10000
 
-  - name      : sram
+  - name      : SRAM
     type      : sram_fifo
     interface : USB
     base_addr : 0x18100
     base_data_addr : 0x0001000000000000
 
-  - name      : tlu
+  - name      : TLU
     type      : tlu
     interface : USB
     base_addr : 0x18200
 
-  - name      : rx_fe
+  - name      : FE
     type      : fei4_rx
     interface : USB
     base_addr : 0x18300
 
-  - name      : tdc_rx2
+  - name      : TDC
     type      : tdc_s3
     interface : USB
     base_addr : 0x18700
 
-  - name      : gpio_rx
+  - name      : GPIO_ENABLE_CHANNEL
     type      : gpio
     interface : USB
     base_addr : 0x18800
@@ -86,12 +86,10 @@ hw_drivers:
     interface : USB
     base_addr : 0x19100
 
-user_drivers:
-
 registers:
-  - name        : rx
+  - name        : ENABLE_CHANNEL
     type        : StdRegister
-    hw_driver   : gpio_rx
+    hw_driver   : GPIO_ENABLE_CHANNEL
     size        : 8
     fields:
       - name    : CCPD_TDC
@@ -109,61 +107,61 @@ registers:
 
   - name        : CCPD_Vdd
     type        : FunctionalRegister
-    hw_driver   : GPAC
+    hw_driver   : ADAPTER_CARD
     arg_names   : [value]
     arg_add     : {'channel': 'PWR0'}
 
   - name        : V_in
     type        : FunctionalRegister
-    hw_driver   : GPAC
+    hw_driver   : ADAPTER_CARD
     arg_names   : [value]
     arg_add     : {'channel': 'PWR1'}
 
   - name        : CCPD_Vssa
     type        : FunctionalRegister
-    hw_driver   : GPAC
+    hw_driver   : ADAPTER_CARD
     arg_names   : [value]
     arg_add     : {'channel': 'PWR2'}
 
   - name        : CCPD_VGate
     type        : FunctionalRegister
-    hw_driver   : GPAC
+    hw_driver   : ADAPTER_CARD
     arg_names   : [value]
     arg_add     : {'channel': 'PWR3'}
 
   - name        : CCPD_Vcasc
     type        : FunctionalRegister
-    hw_driver   : GPAC
+    hw_driver   : ADAPTER_CARD
     arg_names   : [value]
     arg_add     : {'channel': 'VSRC0'}
 
   - name        : CPPD_HVPlus
     type        : FunctionalRegister
-    hw_driver   : GPAC
+    hw_driver   : ADAPTER_CARD
     arg_names   : [value]
     arg_add     : {'channel': 'VSRC1'}
 
   - name        : CCPD_BL
     type        : FunctionalRegister
-    hw_driver   : GPAC
+    hw_driver   : ADAPTER_CARD
     arg_names   : [value]
     arg_add     : {'channel': 'VSRC2'}
 
   - name        : CCPD_Th
     type        : FunctionalRegister
-    hw_driver   : GPAC
+    hw_driver   : ADAPTER_CARD
     arg_names   : [value]
     arg_add     : {'channel': 'VSRC3'}
 
   - name        : CCPD_Injection_low
     type        : FunctionalRegister
-    hw_driver   : GPAC
+    hw_driver   : ADAPTER_CARD
     arg_names   : [value]
     arg_add     : {'channel': 'INJ1'}
 
   - name        : CCPD_Injection_high
     type        : FunctionalRegister
-    hw_driver   : GPAC
+    hw_driver   : ADAPTER_CARD
     arg_names   : [value]
     arg_add     : {'channel': 'INJ0'}
 

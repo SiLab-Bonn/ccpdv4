@@ -30,17 +30,20 @@ class CcpdRegister(object):
         self.global_register = ccpdv4['CCPD_GLOBAL'].copy()
         self.pixel_register = {
             "threshold": np.full((48, 12), 7, dtype=np.uint8),  # 16 columns (triple col) x 6 rows (double row)
-#             "monitor": value = np.full((48,12), 0, dtype=np.uint8),
+#             "monitor": np.full((48, 12), 0, dtype=np.uint8),
             "injection": np.full((6, ), 0, dtype=np.uint8)
         }
 
     def write_chip(self, interface):
+#         self.dut['CCPD_Vdd'].set_voltage(1.40, unit='V')
+#         sleep(0.1)
         if isinstance(interface, basestring):
             interface = self.dut[interface]
         interface.write()
         interface.start()  # TODO: check autostart
         while not interface.is_done():
             sleep(0.001)
+#         self.dut['CCPD_Vdd'].set_voltage(1.80, unit='V')
 
     def write_global(self, register=None, **kwargs):
         if register:

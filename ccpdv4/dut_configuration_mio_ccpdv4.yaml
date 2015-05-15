@@ -4,14 +4,22 @@ USB:
     board_id       : 
     avoid_download : False
 
-cmd:
+CMD:
     OUTPUT_MODE : 0  # 0: positive edge (default), 2: Manchester code
 
-tlu:
+TLU:
     TRIGGER_MODE        : 0
-    EN_INVERT_TRIGGER   : 0
-    EN_WRITE_TIMESTAMP  : 0
-    TRIGGER_LOW_TIMEOUT : 255
+    TRIGGER_SELECT      : 0 # CCPD_TDC_FROM_TDC, TDC_IN_FROM_TDC, LEMO_TRIGGER_FROM_TDC, MONHIT
+    TRIGGER_INVERT      : 0
+    TRIGGER_VETO_SELECT : 255 # VETO_IN, FIFO_FULL
+
+TDC:
+    ENABLE               : 0
+    EN_WRITE_TIMESTAMP   : 0
+    EN_TRIGGER_DIST      : 0
+    EN_NO_WRITE_TRIG_ERR : 0
+    EN_INVERT_TDC        : 0
+    EN_INVERT_TRIGGER    : 0
 
 CCPD_GLOBAL_SPI:
     SIZE : 132
